@@ -16,6 +16,10 @@ class CellView: UIView, CellUpdateDelegate {
     @IBOutlet weak var roundedView: UIView!
     @IBOutlet weak var numberOfStonesLabel: UILabel!
     
+    private var updateLabel: UILabel!
+    
+    private var rotated: Bool = false
+    
     private var player: Player!
     private var delegate: CellViewTapDelegate?
     
@@ -23,18 +27,46 @@ class CellView: UIView, CellUpdateDelegate {
     
     
     func configure(withUIParams uiParams: UIParameters) {
+        self.rotated = uiParams.shouldRotateLabel
+        self.setupUpdateLabel()
+        self.numberOfStonesLabel.text = nil
         uiParams.cell.delegate = self
         self.player = uiParams.player
         self.delegate = uiParams.delegate
-        if uiParams.shouldRotateLabel {
-            numberOfStonesLabel.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-        }
-        else {
-            numberOfStonesLabel.transform = CGAffineTransform(rotationAngle: 0)
-        }
+        applyRotation(toLabel: self.numberOfStonesLabel)
         roundedView.layer.cornerRadius = self.frame.size.height / 2
         roundedView.layer.masksToBounds = true
+        
         self.setUpGestureRecognizer()
+    }
+    
+    private func setupUpdateLabel() {
+        self.updateLabel = UILabel(frame: self.frame)
+        self.updateLabel.text = ""
+        self.updateLabel.textAlignment = .center
+        self.updateLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.updateLabel.alpha = 0
+        self.applyRotation(toLabel: self.updateLabel)
+        self.addSubview(updateLabel)
+        
+        let widthConstraint = NSLayoutConstraint(item: updateLabel, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1, constant: 0)
+        let heightConstraint = NSLayoutConstraint(item: updateLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 1, constant: 0)
+        let centerXConstraint = NSLayoutConstraint(item: updateLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0)
+        let centerYConstraint = NSLayoutConstraint(item: updateLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: self.rotated ? 20 : -20)
+        
+        NSLayoutConstraint.activate([
+            widthConstraint, heightConstraint,
+            centerXConstraint, centerYConstraint
+            ])
+    }
+    
+    private func applyRotation(toLabel label: UILabel) {
+        if self.rotated {
+            label.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+        }
+        else {
+            label.transform = CGAffineTransform(rotationAngle: 0)
+        }
     }
     
     private func setUpGestureRecognizer() {
@@ -43,12 +75,41 @@ class CellView: UIView, CellUpdateDelegate {
     }
     
     func didUpdate(numberOfStones: Int) {
-        print("updating.....")
+        self.showUpdateAnimation(newAmount: numberOfStones)
         numberOfStonesLabel.text = "\(numberOfStones)"
+    }
+    
+    func showUpdateAnimation(newAmount: Int) {
+        guard let text = numberOfStonesLabel.text else {
+            return
+        }
+        guard let previous = Int(text) else {
+            return
+        }
+        let difference = newAmount - previous
+        if difference > 0 {
+            self.updateLabel.text = "+\(difference)"
+            self.updateLabel.textColor = UIColor.green
+        }
+        else if difference == 0 {
+            return
+        }
+        else {
+            self.updateLabel.text = "\(difference)"
+            self.updateLabel.textColor = UIColor.red
+        }
+        let delay = 0.8 // TimeInterval(GameViewController.delay / 100) / 2
+        UIView.animate(withDuration: delay, animations: {_ in
+            self.updateLabel.alpha = 1
+        }, completion: {_ in
+            UIView.animate(withDuration: delay, animations: {_ in
+                self.updateLabel.alpha = 0
+            })
+        })
+        
     }
 
     func didTap() {
-        print("did Tap: \(self.tag)")
         self.delegate?.didTapCell(withTag: self.tag, fromPlayer: player)
     }
     

@@ -34,6 +34,7 @@ class GameField {
         var hasfinished: Bool = false
         var previousCell = playerCells.getCell(at: position)
         var stones = previousCell.takeStones()
+        usleep(GameViewController.delay)
         while !hasfinished {
             previousCell = distributesStones(stones: stones, inList: playerCells, selectedCell: previousCell)
             if !((previousCell.cellPosition.row == .Front && otherPlayerCells.getCell(at: previousCell.cellPosition).hasStones) || previousCell.mayContinue) {
@@ -41,8 +42,10 @@ class GameField {
                 continue
             }
             stones = previousCell.takeStones()
+            usleep(GameViewController.delay)
             if previousCell.cellPosition.row == .Front {
                 stones += otherPlayerCells.getCell(at: previousCell.cellPosition).takeStones()
+                usleep(GameViewController.delay)
             }
         }
     }
@@ -52,15 +55,8 @@ class GameField {
         var lastCell: Cell = selectedCell
         while remainingStones != 0 {
             lastCell = playerCells.nextCell(afterCell: lastCell)
-            var label: String
-            if lastCell.cellPosition.row == CellPosition.Row.Front {
-                label = "front"
-            }
-            else {
-                label = "back"
-            }
-            print("updating at row: \(label) number: \(lastCell.cellPosition.number)")
             lastCell.addStone()
+            usleep(GameViewController.delay)
             remainingStones -= 1
         }
         return lastCell

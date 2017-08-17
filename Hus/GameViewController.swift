@@ -10,19 +10,22 @@ import UIKit
 
 class GameViewController: UIViewController, CellViewTapDelegate {
     
-    static var delay: UInt32 = 500000
+    static var delay: UInt32 = 250000
     static let spaceBetweenPlayers: CGFloat = 10
     
     @IBOutlet weak var upperPlayerBack: UIStackView!
     @IBOutlet weak var upperPlayerFront: UIStackView!
     @IBOutlet weak var lowerPlayerFront: UIStackView!
     @IBOutlet weak var lowerPlayerBack: UIStackView!
+    @IBOutlet weak var playerOneOverlay: UIView!
+    @IBOutlet weak var playerTwoOverlay: UIView!
     
     let viewModel = GameViewControllerViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configure()
+        self.adjustOverlays()
     }
     
     func configure() {
@@ -53,8 +56,22 @@ class GameViewController: UIViewController, CellViewTapDelegate {
         
     }
     
+    func adjustOverlays() -> Void {
+        if self.viewModel.nextPlayer() == .one {
+            showOverlay(view: self.playerTwoOverlay)
+            return
+        }
+        showOverlay(view: self.playerOneOverlay)
+    }
+    
+    private func showOverlay(view: UIView) {
+        view.isHidden = false
+        (view == playerOneOverlay ? playerTwoOverlay : playerOneOverlay)?.isHidden = true
+    }
+    
+    
     func didTapCell(withTag tag: Int, fromPlayer player: Player) {
-        self.viewModel.didSelectItem(fromPlayer: player, andTag: tag)
+        self.viewModel.didSelectItem(fromPlayer: player, andTag: tag, closure: adjustOverlays)
     }
     
 }

@@ -1116,6 +1116,14 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HLx-OG-yat">
+                                <rect key="frame" x="0.0" y="64" width="667" height="149.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.32577054789999998" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="epl-dU-Dfz">
+                                <rect key="frame" x="0.0" y="221" width="667" height="149.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.32577054789999998" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -1125,16 +1133,24 @@
                             <constraint firstItem="vxo-jM-EdB" firstAttribute="top" secondItem="Qpj-uk-esE" secondAttribute="bottom" id="CpK-Wu-gdR"/>
                             <constraint firstItem="Qpj-uk-esE" firstAttribute="leading" secondItem="gvt-Bo-FCP" secondAttribute="leading" id="DNc-hW-ne2"/>
                             <constraint firstItem="VXD-U1-awd" firstAttribute="top" secondItem="vxo-jM-EdB" secondAttribute="bottom" constant="1.5" id="GeL-9H-Bct"/>
+                            <constraint firstItem="epl-dU-Dfz" firstAttribute="top" secondItem="VXD-U1-awd" secondAttribute="top" id="Hz3-5D-6ii"/>
+                            <constraint firstItem="HLx-OG-yat" firstAttribute="width" secondItem="Qpj-uk-esE" secondAttribute="width" id="L6A-KX-xMR"/>
                             <constraint firstItem="vxo-jM-EdB" firstAttribute="width" secondItem="Qpj-uk-esE" secondAttribute="width" id="McZ-Gb-12K"/>
                             <constraint firstItem="vxo-jM-EdB" firstAttribute="leading" secondItem="Qpj-uk-esE" secondAttribute="leading" id="U0s-lm-zcQ"/>
                             <constraint firstAttribute="trailing" secondItem="gvt-Bo-FCP" secondAttribute="trailing" id="UwK-pk-fPt"/>
+                            <constraint firstItem="HLx-OG-yat" firstAttribute="top" secondItem="Qpj-uk-esE" secondAttribute="top" id="Y8Y-MD-Q4G"/>
+                            <constraint firstItem="HLx-OG-yat" firstAttribute="height" secondItem="Qpj-uk-esE" secondAttribute="height" id="ZFN-AS-oRr"/>
                             <constraint firstItem="vxo-jM-EdB" firstAttribute="height" secondItem="gvt-Bo-FCP" secondAttribute="height" multiplier="0.02" id="ZNO-bt-4dL"/>
+                            <constraint firstItem="epl-dU-Dfz" firstAttribute="width" secondItem="VXD-U1-awd" secondAttribute="width" id="dF7-VT-hf3"/>
                             <constraint firstItem="gvt-Bo-FCP" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="eOW-9s-GVc"/>
                             <constraint firstItem="VXD-U1-awd" firstAttribute="width" secondItem="Qpj-uk-esE" secondAttribute="width" id="giT-0i-A4Q"/>
                             <constraint firstItem="Qpj-uk-esE" firstAttribute="height" secondItem="gvt-Bo-FCP" secondAttribute="height" multiplier="0.48" id="m87-ir-F8Q"/>
                             <constraint firstItem="gvt-Bo-FCP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="qWJ-an-yaO"/>
+                            <constraint firstItem="HLx-OG-yat" firstAttribute="leading" secondItem="Qpj-uk-esE" secondAttribute="leading" id="r7b-Ie-hmx"/>
                             <constraint firstItem="Qpj-uk-esE" firstAttribute="top" secondItem="gvt-Bo-FCP" secondAttribute="top" id="sXt-MR-PGj"/>
+                            <constraint firstItem="epl-dU-Dfz" firstAttribute="height" secondItem="VXD-U1-awd" secondAttribute="height" id="snT-oN-ocb"/>
                             <constraint firstItem="VXD-U1-awd" firstAttribute="height" secondItem="Qpj-uk-esE" secondAttribute="height" id="xYQ-ff-nZS"/>
+                            <constraint firstItem="epl-dU-Dfz" firstAttribute="leading" secondItem="VXD-U1-awd" secondAttribute="leading" id="zrg-fs-Oft"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Mun-S2-lIS"/>
@@ -1143,6 +1159,8 @@
                     <connections>
                         <outlet property="lowerPlayerBack" destination="kZy-HZ-0Qs" id="u73-lf-LtI"/>
                         <outlet property="lowerPlayerFront" destination="ViO-QD-lGk" id="v6C-3d-hJq"/>
+                        <outlet property="playerOneOverlay" destination="HLx-OG-yat" id="NH6-TI-fID"/>
+                        <outlet property="playerTwoOverlay" destination="epl-dU-Dfz" id="RfP-4n-jtC"/>
                         <outlet property="upperPlayerBack" destination="BQs-E2-506" id="Nr4-fG-pkt"/>
                         <outlet property="upperPlayerFront" destination="zp2-x1-ayv" id="4Za-QI-2Z8"/>
                     </connections>

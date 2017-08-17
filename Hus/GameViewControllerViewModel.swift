@@ -21,12 +21,19 @@ class GameViewControllerViewModel {
         return self.game.getCell(atPosition: self.position(forTag: tag), forPlayer: player)
     }
     
-    func didSelectItem(fromPlayer player: Player, andTag tag: Int) {
+    func didSelectItem(fromPlayer player: Player, andTag tag: Int, closure: @escaping () -> Void) {
         let position = self.position(forTag: tag)
         if player == self.game.next && self.game.getCell(atPosition: position, forPlayer: player).hasStones {
-            self.game.performProcess(position: position)
-            self.game.doPrint()
+            DispatchQueue.global().async {
+                self.game.performProcess(position: position)
+                self.game.doPrint()
+                DispatchQueue.main.async(execute: {
+                    closure()
+                })
+                
+            }
         }
+        
     }
     
     private func indexPathToPositionAndPlayer(indexPath: IndexPath) -> (position: CellPosition, player: Player) {
@@ -42,6 +49,10 @@ class GameViewControllerViewModel {
         else {
             return CellPosition(row: .Back, number: tag - 8)
         }
+    }
+    
+    func nextPlayer() -> Player {
+        return self.game.next
     }
     
     

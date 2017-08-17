@@ -17,10 +17,8 @@
 		EA2292341F436FE100EE1E79 /* GameField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2292331F436FE100EE1E79 /* GameField.swift */; };
 		EA2292361F43763A00EE1E79 /* PlayerCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2292351F43763A00EE1E79 /* PlayerCells.swift */; };
 		EA2292381F43780500EE1E79 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2292371F43780500EE1E79 /* Game.swift */; };
-		EA22923A1F43A04B00EE1E79 /* GameCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2292391F43A04B00EE1E79 /* GameCellCollectionViewCell.swift */; };
 		EA22923C1F43A41500EE1E79 /* GameViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA22923B1F43A41500EE1E79 /* GameViewControllerViewModel.swift */; };
 		EA22923E1F43A9B200EE1E79 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA22923D1F43A9B200EE1E79 /* Player.swift */; };
-		EA2292401F43AEEC00EE1E79 /* GameCollectionViewFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA22923F1F43AEEC00EE1E79 /* GameCollectionViewFooterView.swift */; };
 		EAE8FDA71F45D78E00F830D0 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE8FDA61F45D78E00F830D0 /* CellView.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,10 +35,8 @@
 		EA2292331F436FE100EE1E79 /* GameField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameField.swift; sourceTree = "<group>"; };
 		EA2292351F43763A00EE1E79 /* PlayerCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCells.swift; sourceTree = "<group>"; };
 		EA2292371F43780500EE1E79 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		EA2292391F43A04B00EE1E79 /* GameCellCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		EA22923B1F43A41500EE1E79 /* GameViewControllerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewControllerViewModel.swift; sourceTree = "<group>"; };
 		EA22923D1F43A9B200EE1E79 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		EA22923F1F43AEEC00EE1E79 /* GameCollectionViewFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCollectionViewFooterView.swift; sourceTree = "<group>"; };
 		EAE8FDA61F45D78E00F830D0 /* CellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,8 +73,6 @@
 				EA22921C1F436D1E00EE1E79 /* AppDelegate.swift */,
 				EA22921E1F436D1E00EE1E79 /* GameViewController.swift */,
 				EA22923B1F43A41500EE1E79 /* GameViewControllerViewModel.swift */,
-				EA2292391F43A04B00EE1E79 /* GameCellCollectionViewCell.swift */,
-				EA22923F1F43AEEC00EE1E79 /* GameCollectionViewFooterView.swift */,
 				EAE8FDA61F45D78E00F830D0 /* CellView.swift */,
 				EA2292201F436D1E00EE1E79 /* Main.storyboard */,
 				EA2292231F436D1E00EE1E79 /* Assets.xcassets */,
@@ -175,7 +169,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA22923A1F43A04B00EE1E79 /* GameCellCollectionViewCell.swift in Sources */,
 				EA22921F1F436D1E00EE1E79 /* GameViewController.swift in Sources */,
 				EA22923C1F43A41500EE1E79 /* GameViewControllerViewModel.swift in Sources */,
 				EA22921D1F436D1E00EE1E79 /* AppDelegate.swift in Sources */,
@@ -184,7 +177,6 @@
 				EA2292321F436FA900EE1E79 /* CellPosition.swift in Sources */,
 				EA2292361F43763A00EE1E79 /* PlayerCells.swift in Sources */,
 				EAE8FDA71F45D78E00F830D0 /* CellView.swift in Sources */,
-				EA2292401F43AEEC00EE1E79 /* GameCollectionViewFooterView.swift in Sources */,
 				EA22923E1F43A9B200EE1E79 /* Player.swift in Sources */,
 				EA22922F1F436D3700EE1E79 /* Cell.swift in Sources */,
 			);

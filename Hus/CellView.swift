@@ -86,6 +86,7 @@ class CellView: UIView, CellUpdateDelegate {
         guard let previous = Int(text) else {
             return
         }
+        print("updating for player \(self.player == .one ? "1" : "2") row: \(tag)")
         let difference = newAmount - previous
         if difference > 0 {
             self.updateLabel.text = "+\(difference)"

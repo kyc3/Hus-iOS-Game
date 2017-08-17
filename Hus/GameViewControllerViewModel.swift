@@ -12,6 +12,9 @@ class GameViewControllerViewModel {
     
     var game = Game()
     
+    private var directionForPlayerOneSet = false
+    private var directionForPlayerTwoSet = false
+    
     init() {
         game.setDirection(forFirstPlayer: .up)
         game.setDirection(forSecondPlayer: .down)
@@ -21,14 +24,36 @@ class GameViewControllerViewModel {
         return self.game.getCell(atPosition: self.position(forTag: tag), forPlayer: player)
     }
     
-    func didSelectItem(fromPlayer player: Player, andTag tag: Int, closure: @escaping () -> Void) {
+    var wouldBeFirstSelectionForPlayer: Bool {
+        if game.next == .one {
+            return !directionForPlayerOneSet
+        }
+        else {
+            return !directionForPlayerTwoSet
+        }
+    }
+    
+    func set(directionForNextPlayer direction: PlayerCells.Direction) {
+        game.setDirection(forNextPlayer: direction)
+        if nextPlayer() == .one {
+            directionForPlayerOneSet = true
+            return
+        }
+        directionForPlayerTwoSet = true
+        
+    }
+    
+    func didSelectItem(fromPlayer player: Player, andTag tag: Int, closure: @escaping (GameViewController.ResponseReaction) -> Void) {
         let position = self.position(forTag: tag)
         if player == self.game.next && self.game.getCell(atPosition: position, forPlayer: player).hasStones {
             DispatchQueue.global().async {
                 self.game.performProcess(position: position)
-                self.game.doPrint()
                 DispatchQueue.main.async(execute: {
-                    closure()
+                    if let _ = self.game.winner {
+                        closure(.showGameOverMessage)
+                        return
+                    }
+                    closure(.nothing)
                 })
                 
             }

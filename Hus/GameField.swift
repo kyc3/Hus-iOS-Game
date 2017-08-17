@@ -15,6 +15,8 @@ class GameField {
     private var firstPlayerCells: PlayerCells!
     private var secondPlayerCells: PlayerCells!
     
+    var shouldSleep: Bool = true
+    
     init() {
         self.firstPlayerCells = PlayerCells()
         self.secondPlayerCells = PlayerCells()
@@ -42,11 +44,10 @@ class GameField {
                 continue
             }
             stones = previousCell.takeStones()
-            usleep(GameViewController.delay)
             if previousCell.cellPosition.row == .Front {
                 stones += otherPlayerCells.getCell(at: previousCell.cellPosition).takeStones()
-                usleep(GameViewController.delay)
             }
+            doSleep()
         }
     }
     
@@ -56,7 +57,7 @@ class GameField {
         while remainingStones != 0 {
             lastCell = playerCells.nextCell(afterCell: lastCell)
             lastCell.addStone()
-            usleep(GameViewController.delay)
+            doSleep()
             remainingStones -= 1
         }
         return lastCell
@@ -75,6 +76,21 @@ class GameField {
         print("\(firstPlayerCells.toString(player: .one))\n-----------------------------\n\(secondPlayerCells.toString(player: .two))\n\n\n")
     }
     
+    func doSleep() {
+        if shouldSleep {
+            usleep(GameViewController.delay)
+        }
+    }
+    
+    var winner: Player? {
+        if !self.firstPlayerCells.hasStonesInFirstRow {
+            return .two
+        }
+        if !self.secondPlayerCells.hasStonesInFirstRow {
+            return .one
+        }
+        return nil
+    }
                          
 }
 

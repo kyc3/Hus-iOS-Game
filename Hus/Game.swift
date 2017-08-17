@@ -24,6 +24,15 @@ class Game {
         return self.gameField.getCell(atPosition: position, forPlayer: player)
     }
     
+    func setDirection(forNextPlayer direction: PlayerCells.Direction) {
+        if next == .one {
+            self.setDirection(forFirstPlayer: direction)
+        }
+        else {
+            self.setDirection(forSecondPlayer: direction)
+        }
+    }
+    
     func setDirection(forFirstPlayer direction: PlayerCells.Direction) {
         self.gameField.setDirection(forFirstPlayer: direction)
     }
@@ -34,6 +43,10 @@ class Game {
     
     var next: Player {
         return nextPlayer
+    }
+    
+    var winner: Player? {
+        return self.gameField.winner
     }
     
     func doPrint() {

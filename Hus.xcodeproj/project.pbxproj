@@ -20,6 +20,7 @@
 		EA22923C1F43A41500EE1E79 /* GameViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA22923B1F43A41500EE1E79 /* GameViewControllerViewModel.swift */; };
 		EA22923E1F43A9B200EE1E79 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA22923D1F43A9B200EE1E79 /* Player.swift */; };
 		EAE8FDA71F45D78E00F830D0 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE8FDA61F45D78E00F830D0 /* CellView.swift */; };
+		EAE8FDA91F463D0800F830D0 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE8FDA81F463D0800F830D0 /* StartViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		EA22923B1F43A41500EE1E79 /* GameViewControllerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewControllerViewModel.swift; sourceTree = "<group>"; };
 		EA22923D1F43A9B200EE1E79 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		EAE8FDA61F45D78E00F830D0 /* CellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
+		EAE8FDA81F463D0800F830D0 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				EA2292251F436D1E00EE1E79 /* LaunchScreen.storyboard */,
 				EA2292281F436D1E00EE1E79 /* Info.plist */,
 				EA2292301F436D3C00EE1E79 /* Game */,
+				EAE8FDA81F463D0800F830D0 /* StartViewController.swift */,
 			);
 			path = Hus;
 			sourceTree = "<group>";
@@ -174,6 +177,7 @@
 				EA22921D1F436D1E00EE1E79 /* AppDelegate.swift in Sources */,
 				EA2292381F43780500EE1E79 /* Game.swift in Sources */,
 				EA2292341F436FE100EE1E79 /* GameField.swift in Sources */,
+				EAE8FDA91F463D0800F830D0 /* StartViewController.swift in Sources */,
 				EA2292321F436FA900EE1E79 /* CellPosition.swift in Sources */,
 				EA2292361F43763A00EE1E79 /* PlayerCells.swift in Sources */,
 				EAE8FDA71F45D78E00F830D0 /* CellView.swift in Sources */,

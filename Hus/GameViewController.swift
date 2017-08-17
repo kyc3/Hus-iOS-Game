@@ -13,6 +13,8 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     static var delay: UInt32 = 250000
     static let spaceBetweenPlayers: CGFloat = 10
     
+    var gameMode: GameMode!
+    
     @IBOutlet weak var upperPlayerBack: UIStackView!
     @IBOutlet weak var upperPlayerFront: UIStackView!
     @IBOutlet weak var lowerPlayerFront: UIStackView!
@@ -21,6 +23,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     @IBOutlet weak var playerTwoOverlay: UIView!
     
     let viewModel = GameViewControllerViewModel()
+    var gameEnabled: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,13 +36,13 @@ class GameViewController: UIViewController, CellViewTapDelegate {
             guard let cellView = view as? CellView else {
                 continue
             }
-            cellView.configure(withUIParams: (cell: self.viewModel.cell(forPlayer: .one, andTag: cellView.tag), shouldRotateLabel: true, player: .one, delegate: self))
+            cellView.configure(withUIParams: (cell: self.viewModel.cell(forPlayer: .one, andTag: cellView.tag), shouldRotateLabel: upperSideRotated , player: .one, delegate: self))
         }
         for view in upperPlayerFront.arrangedSubviews {
             guard let cellView = view as? CellView else {
                 continue
             }
-            cellView.configure(withUIParams:(cell: self.viewModel.cell(forPlayer: .one, andTag: cellView.tag), shouldRotateLabel: true, player: .one, delegate: self))
+            cellView.configure(withUIParams:(cell: self.viewModel.cell(forPlayer: .one, andTag: cellView.tag), shouldRotateLabel: upperSideRotated, player: .one, delegate: self))
         }
         for view in lowerPlayerFront.arrangedSubviews {
             guard let cellView = view as? CellView else {
@@ -56,7 +59,29 @@ class GameViewController: UIViewController, CellViewTapDelegate {
         
     }
     
-    func adjustOverlays() -> Void {
+    var upperSideRotated: Bool {
+        return gameMode == GameMode.multiPlayer
+    }
+    
+    func gameClosure(reaction: ResponseReaction) -> Void {
+        
+        switch reaction {
+        case .showGameOverMessage:
+            self.removeOverlays()
+            self.gameEnabled = false
+            // TODO: message
+            print("GameOver")
+        default:
+            self.adjustOverlays()
+        }
+    }
+    
+    func removeOverlays() {
+        self.playerOneOverlay.isHidden = true
+        self.playerTwoOverlay.isHidden = true
+    }
+    
+    func adjustOverlays() {
         if self.viewModel.nextPlayer() == .one {
             showOverlay(view: self.playerTwoOverlay)
             return
@@ -71,8 +96,53 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     
     
     func didTapCell(withTag tag: Int, fromPlayer player: Player) {
-        self.viewModel.didSelectItem(fromPlayer: player, andTag: tag, closure: adjustOverlays)
+        guard gameEnabled else {
+            return
+        }
+        if self.viewModel.wouldBeFirstSelectionForPlayer {
+            let alert = UIAlertController(title: "Direction", message: "Which direction would you like to go", preferredStyle: .alert)
+            let leftAction = UIAlertAction(title: "Left", style: .default, handler: {_ in
+                let direction: PlayerCells.Direction
+                if self.viewModel.nextPlayer() == .one {
+                    direction = .up
+                }
+                else {
+                    direction = .down
+                }
+                self.viewModel.set(directionForNextPlayer: direction)
+                self.viewModel.didSelectItem(fromPlayer: player, andTag: tag, closure: self.gameClosure)
+            })
+            let rightAction = UIAlertAction(title: "Right", style: .default, handler: {_ in
+                let direction: PlayerCells.Direction
+                if self.viewModel.nextPlayer() == .two {
+                    direction = .up
+                }
+                else {
+                    direction = .down
+                }
+                self.viewModel.set(directionForNextPlayer: direction)
+                self.viewModel.didSelectItem(fromPlayer: player, andTag: tag, closure: self.gameClosure)
+            })
+            alert.addAction(leftAction)
+            alert.addAction(rightAction)
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        self.viewModel.didSelectItem(fromPlayer: player, andTag: tag, closure: self.gameClosure)
+    }
+    
+    enum GameMode {
+        case singlePlayer
+        case multiPlayer
+    }
+    
+    enum ResponseReaction {
+        case nothing
+        case showGameOverMessage
     }
     
 }
+
+
+
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jY5-JN-Dza">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="CpX-Uy-h1G">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -1168,6 +1168,68 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="912.79999999999995" y="58.920539730134934"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ly0-Lz-QM0">
+            <objects>
+                <navigationController id="CpX-Uy-h1G" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="b0E-Ni-dSM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="YOh-AC-dzO" kind="relationship" relationship="rootViewController" id="Sef-H9-m4F"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QW8-nP-K7C" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-428" y="815"/>
+        </scene>
+        <!--Start View Controller-->
+        <scene sceneID="cJI-1k-ofj">
+            <objects>
+                <viewController id="YOh-AC-dzO" customClass="StartViewController" customModule="Hus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xx1-lU-Htx"/>
+                        <viewControllerLayoutGuide type="bottom" id="OO5-gb-Uea"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vgD-5W-6OF">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gsr-fC-H5q">
+                                <rect key="frame" x="295" y="172" width="76" height="30"/>
+                                <state key="normal" title="Mulitplayer"/>
+                                <connections>
+                                    <action selector="multiPlayer" destination="YOh-AC-dzO" eventType="touchUpInside" id="MMy-oR-IkV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bOs-VZ-1dM">
+                                <rect key="frame" x="289" y="134" width="89" height="30"/>
+                                <state key="normal" title="Single Player"/>
+                                <connections>
+                                    <action selector="singlePlayer" destination="YOh-AC-dzO" eventType="touchUpInside" id="Wlo-WH-0ff"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gsr-fC-H5q" firstAttribute="top" secondItem="bOs-VZ-1dM" secondAttribute="bottom" constant="8" id="MI9-bO-iVz"/>
+                            <constraint firstItem="bOs-VZ-1dM" firstAttribute="centerX" secondItem="gsr-fC-H5q" secondAttribute="centerX" id="WnZ-ow-4oI"/>
+                            <constraint firstItem="gsr-fC-H5q" firstAttribute="centerY" secondItem="vgD-5W-6OF" secondAttribute="centerY" id="jkz-18-2Vv"/>
+                            <constraint firstItem="gsr-fC-H5q" firstAttribute="centerX" secondItem="vgD-5W-6OF" secondAttribute="centerX" id="r3c-E7-JFt"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="5Xt-bS-8no"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="667" height="375"/>
+                    <connections>
+                        <segue destination="jY5-JN-Dza" kind="presentation" identifier="StartGame" id="xAC-Cc-EKL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M6V-5x-Ck2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="913" y="815"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="toh-7T-5Nu">

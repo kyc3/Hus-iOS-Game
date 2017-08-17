@@ -69,6 +69,17 @@ class PlayerCells {
         
     }
     
+    var hasStonesInFirstRow: Bool {
+        for number in 0...7 {
+            if frontRow[number].stones != 0 {
+                return true
+            }
+        }
+        return false
+    }
+    
+    
+    
     func toString(player: Player) -> String {
         
         var backRowText: String = ""

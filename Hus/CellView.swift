@@ -62,10 +62,10 @@ class CellView: UIView, CellUpdateDelegate {
     
     private func applyRotation(toLabel label: UILabel) {
         if self.rotated {
-            label.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            Helpers.rotate(view: label, direction: .upsideDown)
         }
         else {
-            label.transform = CGAffineTransform(rotationAngle: 0)
+            Helpers.rotate(view: label, direction: .normal)
         }
     }
     

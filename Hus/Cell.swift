@@ -63,4 +63,10 @@ class Cell {
         })
     }
     
+    func copy() -> Cell {
+        let cell = Cell(position: position)
+        cell.numberOfStones = self.numberOfStones
+        return cell
+    }
+    
 }

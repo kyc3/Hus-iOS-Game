@@ -24,6 +24,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     
     let viewModel = GameViewControllerViewModel()
     var gameEnabled: Bool = true
+    var botPlayer: Player?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,9 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     }
     
     func configure() {
+        if gameMode == GameMode.singlePlayer {
+            botPlayer = .one
+        }
         for view in upperPlayerBack.arrangedSubviews {
             guard let cellView = view as? CellView else {
                 continue
@@ -56,7 +60,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
             }
             cellView.configure(withUIParams: (cell: self.viewModel.cell(forPlayer: .two, andTag: cellView.tag), shouldRotateLabel: false, player: .two, delegate: self))
         }
-        
+        nextStep()
     }
     
     var upperSideRotated: Bool {
@@ -73,6 +77,14 @@ class GameViewController: UIViewController, CellViewTapDelegate {
             print("GameOver")
         default:
             self.adjustOverlays()
+        }
+        nextStep()
+        
+    }
+    
+    func nextStep() {
+        if self.viewModel.nextPlayer() == botPlayer {
+            self.viewModel.performBotStep(closure: gameClosure)
         }
     }
     
@@ -101,6 +113,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
         }
         if self.viewModel.wouldBeFirstSelectionForPlayer {
             let alert = UIAlertController(title: "Direction", message: "Which direction would you like to go", preferredStyle: .alert)
+            
             let leftAction = UIAlertAction(title: "Left", style: .default, handler: {_ in
                 let direction: PlayerCells.Direction
                 if self.viewModel.nextPlayer() == .one {
@@ -125,7 +138,11 @@ class GameViewController: UIViewController, CellViewTapDelegate {
             })
             alert.addAction(leftAction)
             alert.addAction(rightAction)
-            self.present(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: {_ in
+                if self.viewModel.nextPlayer() == .one && self.upperSideRotated {
+                    Helpers.rotate(view: alert.view, direction: .upsideDown)
+                }
+            })
             return
         }
         self.viewModel.didSelectItem(fromPlayer: player, andTag: tag, closure: self.gameClosure)

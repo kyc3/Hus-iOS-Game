@@ -13,7 +13,8 @@ class Game {
     private var gameField: GameField = GameField()
     private var nextPlayer: Player = .one
     
-    func performProcess(position: CellPosition) {
+    func performProcess(position: CellPosition, withDelay delays: Bool = true) {
+        gameField.shouldSleep = delays
         if gameField.getCell(atPosition: position, forPlayer: nextPlayer).hasStones {
             self.gameField.startProcess(forPlayer: self.nextPlayer, atPosition: position)
             nextPlayer = nextPlayer == .one ? .two : .one
@@ -51,6 +52,18 @@ class Game {
     
     func doPrint() {
         self.gameField.printOutput()
+    }
+    
+    
+    func evaluateGame(forPlayer player: Player) -> Double {
+        return gameField.evaluateGame(forPlayer: player)
+    }
+    
+    func copy() -> Game {
+        let game = Game()
+        game.nextPlayer = nextPlayer
+        game.gameField = gameField.copy()
+        return game
     }
     
 }

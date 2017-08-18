@@ -78,6 +78,29 @@ class PlayerCells {
         return false
     }
     
+    var numberOfCellsContainingStonesInFrontRow: Int {
+        var count: Int = 0
+        for number in 0...7 {
+            count += frontRow[number].hasStones ? 1 : 0
+        }
+        return count
+    }
+    
+    var numberOfStonesInFrontRow: Int {
+        var count: Int = 0
+        for number in 0...7 {
+            count += frontRow[number].stones
+        }
+        return count
+    }
+    
+    var totalNumberOfStones: Int {
+        var count = numberOfStonesInFrontRow
+        for number in 0...7 {
+            count += backRow[number].stones
+        }
+        return count
+    }
     
     
     func toString(player: Player) -> String {
@@ -96,6 +119,28 @@ class PlayerCells {
         return "\(frontRowText)\n\(backRowText)"
     }
     
+    var rating: Double {
+        let a: Double = 1
+        let b: Double = 2
+        let c: Double = 2.5
+        
+        return pow(Double(totalNumberOfStones), a) + pow(Double(numberOfStonesInFrontRow), b) + pow(Double(numberOfCellsContainingStonesInFrontRow), c)
+        
+    }
+    
+    func copy() -> PlayerCells {
+        let playerCells = PlayerCells()
+        playerCells.frontRow = []
+        playerCells.backRow = []
+        for cell in self.frontRow {
+            playerCells.frontRow.append(cell.copy())
+        }
+        for cell in self.backRow {
+            playerCells.backRow.append(cell.copy())
+        }
+        playerCells.direction = direction
+        return playerCells
+    }
     
     enum Direction {
         case up

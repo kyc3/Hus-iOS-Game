@@ -43,8 +43,26 @@ class GameViewControllerViewModel {
         
     }
     
+    func performBotStep(closure: @escaping (GameViewController.ResponseReaction) -> Void) {
+        if self.wouldBeFirstSelectionForPlayer {
+            self.set(directionForNextPlayer: Bot.chooseDirection())
+        }
+        DispatchQueue.global().async {
+            Bot.nextPositionToSelect(forGame: self.game, closure: { (position) in
+                DispatchQueue.main.async(execute: {
+                    self.performProcess(fromPlayer: self.nextPlayer(), andPosition: position, closure: closure)
+                })
+            })
+        }
+    }
+
     func didSelectItem(fromPlayer player: Player, andTag tag: Int, closure: @escaping (GameViewController.ResponseReaction) -> Void) {
         let position = self.position(forTag: tag)
+        self.performProcess(fromPlayer: player, andPosition: position, closure: closure)
+        
+    }
+    
+    func performProcess(fromPlayer player: Player, andPosition position: CellPosition, closure: @escaping (GameViewController.ResponseReaction) -> Void) {
         if player == self.game.next && self.game.getCell(atPosition: position, forPlayer: player).hasStones {
             DispatchQueue.global().async {
                 self.game.performProcess(position: position)

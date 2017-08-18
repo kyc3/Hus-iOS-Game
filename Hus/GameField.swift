@@ -82,6 +82,22 @@ class GameField {
         }
     }
     
+    
+    func evaluateGame(forPlayer player: Player) -> Double {
+        let opponentCells: PlayerCells
+        let ownCells: PlayerCells
+        if player == .one {
+            opponentCells = secondPlayerCells
+            ownCells = firstPlayerCells
+        }
+        else {
+            opponentCells = firstPlayerCells
+            ownCells = secondPlayerCells
+        }
+        
+        return ownCells.rating / opponentCells.rating
+    }
+    
     var winner: Player? {
         if !self.firstPlayerCells.hasStonesInFirstRow {
             return .two
@@ -90,6 +106,13 @@ class GameField {
             return .one
         }
         return nil
+    }
+    
+    func copy() -> GameField {
+        let gameField = GameField()
+        gameField.firstPlayerCells = firstPlayerCells.copy()
+        gameField.secondPlayerCells = secondPlayerCells.copy()
+        return gameField
     }
                          
 }

@@ -29,7 +29,7 @@ class StartViewController: UIViewController {
     }
     
     @IBAction func multiPlayer() {
-        let config = (gameMode: GameViewController.GameMode.singlePlayer, difficulty: Bot.Difficulty.easy)
+        let config = (gameMode: GameViewController.GameMode.multiPlayer, difficulty: Bot.Difficulty.easy)
         performSegue(withIdentifier: Config.startGameSegueIdentifier, sender: config)
     }
     

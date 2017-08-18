@@ -219,11 +219,17 @@ class GameViewController: UIViewController, CellViewTapDelegate {
             
             let leftAction = UIAlertAction(title: "Left", style: .default, handler: {_ in
                 let direction: PlayerCells.Direction
-                if self.viewModel.nextPlayer() == .one {
+                if self.viewModel.nextPlayer() == .one && tag < 8 {
                     direction = .up
                 }
-                else {
+                else if self.viewModel.nextPlayer() == .one {
                     direction = .down
+                }
+                else if tag < 8 {
+                    direction = .down
+                }
+                else {
+                    direction = .up
                 }
                 self.viewModel.set(directionForNextPlayer: direction)
                 self.highlightCell(withTag: tag, forPlayer: player)
@@ -231,11 +237,17 @@ class GameViewController: UIViewController, CellViewTapDelegate {
             })
             let rightAction = UIAlertAction(title: "Right", style: .default, handler: {_ in
                 let direction: PlayerCells.Direction
-                if self.viewModel.nextPlayer() == .two {
+                if self.viewModel.nextPlayer() == .two && tag < 8 {
                     direction = .up
                 }
-                else {
+                else if self.viewModel.nextPlayer() == .two {
                     direction = .down
+                }
+                else if tag < 8  {
+                    direction = .down
+                }
+                else {
+                    direction = .up
                 }
                 self.viewModel.set(directionForNextPlayer: direction)
                 self.highlightCell(withTag: tag, forPlayer: player)

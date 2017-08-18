@@ -227,7 +227,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
             return
         }
         if self.viewModel.wouldBeFirstSelectionForPlayer {
-            let alert = UIAlertController(title: "Direction", message: "Which direction would you like to go", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Direction", message: "Which direction would you like to go?", preferredStyle: .alert)
             
             let leftAction = UIAlertAction(title: "Left", style: .default, handler: {_ in
                 let direction: PlayerCells.Direction
@@ -303,6 +303,35 @@ class GameViewController: UIViewController, CellViewTapDelegate {
         }
     }
     
+    func showTippAtCell(withTag tag: Int, forPlayer player: Player) {
+        let stackView = getStackView(forTag: tag, andPlayer: player)
+        for view in stackView.arrangedSubviews {
+            if view.tag == tag {
+                (view as? CellView)?.performTippLogic()
+                return
+            }
+        }
+    }
+    
+    func getStackView(forTag tag: Int, andPlayer player: Player) -> UIStackView {
+        if player == .one {
+            if tag < 8 {
+                return self.upperPlayerFront
+            }
+            else {
+                return self.upperPlayerBack
+            }
+        }
+        else {
+            if tag < 8 {
+                return self.lowerPlayerFront
+            }
+            else {
+                return self.lowerPlayerBack
+            }
+        }
+    }
+    
     @IBAction func cancelGame(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -317,7 +346,14 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     
     @IBAction func showTipps(_ sender: Any) {
         if gameEnabled {
-            // TODO
+            gameEnabled = false
+            showThinkingView()
+            self.viewModel.getTipp(selectedPositionCallback: { (position) in
+                self.hideThinkingView()
+                self.showTippAtCell(withTag: position.hashValue, forPlayer: self.viewModel.nextPlayer())
+                self.gameEnabled = true
+            })
+            
         }
     }
     

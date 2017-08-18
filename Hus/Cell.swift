@@ -58,6 +58,11 @@ class Cell {
     }
     
     private func notifyDelegate() {
+        if Thread.isMainThread {
+            self.delegate?.didUpdate(numberOfStones: self.numberOfStones)
+            return
+        }
+        
         DispatchQueue.main.async(execute: {
             self.delegate?.didUpdate(numberOfStones: self.numberOfStones)
         })

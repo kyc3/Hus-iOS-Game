@@ -23,7 +23,20 @@
 		EAE8FDA91F463D0800F830D0 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE8FDA81F463D0800F830D0 /* StartViewController.swift */; };
 		EAE8FDAB1F4649A600F830D0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE8FDAA1F4649A600F830D0 /* Helpers.swift */; };
 		EAE8FDAD1F464B3900F830D0 /* Bot.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE8FDAC1F464B3900F830D0 /* Bot.swift */; };
+		EAE8FDB51F47583F00F830D0 /* HusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE8FDB41F47583F00F830D0 /* HusTests.swift */; };
+		EAE8FDBD1F47587D00F830D0 /* CellTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE8FDBC1F47587D00F830D0 /* CellTest.swift */; };
+		EAE8FDBF1F475D1500F830D0 /* PlayerCellsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE8FDBE1F475D1500F830D0 /* PlayerCellsTest.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EAE8FDB71F47583F00F830D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA2292111F436D1E00EE1E79 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA2292181F436D1E00EE1E79;
+			remoteInfo = Hus;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		EA2292191F436D1E00EE1E79 /* Hus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,10 +57,22 @@
 		EAE8FDA81F463D0800F830D0 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		EAE8FDAA1F4649A600F830D0 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		EAE8FDAC1F464B3900F830D0 /* Bot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bot.swift; sourceTree = "<group>"; };
+		EAE8FDB21F47583F00F830D0 /* HusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAE8FDB41F47583F00F830D0 /* HusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HusTests.swift; sourceTree = "<group>"; };
+		EAE8FDB61F47583F00F830D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EAE8FDBC1F47587D00F830D0 /* CellTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellTest.swift; sourceTree = "<group>"; };
+		EAE8FDBE1F475D1500F830D0 /* PlayerCellsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCellsTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		EA2292161F436D1E00EE1E79 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EAE8FDAF1F47583F00F830D0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -61,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				EA22921B1F436D1E00EE1E79 /* Hus */,
+				EAE8FDB31F47583F00F830D0 /* HusTests */,
 				EA22921A1F436D1E00EE1E79 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -69,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				EA2292191F436D1E00EE1E79 /* Hus.app */,
+				EAE8FDB21F47583F00F830D0 /* HusTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -105,6 +132,17 @@
 			name = Game;
 			sourceTree = "<group>";
 		};
+		EAE8FDB31F47583F00F830D0 /* HusTests */ = {
+			isa = PBXGroup;
+			children = (
+				EAE8FDB41F47583F00F830D0 /* HusTests.swift */,
+				EAE8FDB61F47583F00F830D0 /* Info.plist */,
+				EAE8FDBC1F47587D00F830D0 /* CellTest.swift */,
+				EAE8FDBE1F475D1500F830D0 /* PlayerCellsTest.swift */,
+			);
+			path = HusTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -125,6 +163,24 @@
 			productReference = EA2292191F436D1E00EE1E79 /* Hus.app */;
 			productType = "com.apple.product-type.application";
 		};
+		EAE8FDB11F47583F00F830D0 /* HusTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EAE8FDBB1F47583F00F830D0 /* Build configuration list for PBXNativeTarget "HusTests" */;
+			buildPhases = (
+				EAE8FDAE1F47583F00F830D0 /* Sources */,
+				EAE8FDAF1F47583F00F830D0 /* Frameworks */,
+				EAE8FDB01F47583F00F830D0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EAE8FDB81F47583F00F830D0 /* PBXTargetDependency */,
+			);
+			name = HusTests;
+			productName = HusTests;
+			productReference = EAE8FDB21F47583F00F830D0 /* HusTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -139,6 +195,11 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 54EZ7X28X3;
 						ProvisioningStyle = Automatic;
+					};
+					EAE8FDB11F47583F00F830D0 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = EA2292181F436D1E00EE1E79;
 					};
 				};
 			};
@@ -156,6 +217,7 @@
 			projectRoot = "";
 			targets = (
 				EA2292181F436D1E00EE1E79 /* Hus */,
+				EAE8FDB11F47583F00F830D0 /* HusTests */,
 			);
 		};
 /* End PBXProject section */
@@ -168,6 +230,13 @@
 				EA2292271F436D1E00EE1E79 /* LaunchScreen.storyboard in Resources */,
 				EA2292241F436D1E00EE1E79 /* Assets.xcassets in Resources */,
 				EA2292221F436D1E00EE1E79 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EAE8FDB01F47583F00F830D0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,7 +263,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EAE8FDAE1F47583F00F830D0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EAE8FDB51F47583F00F830D0 /* HusTests.swift in Sources */,
+				EAE8FDBD1F47587D00F830D0 /* CellTest.swift in Sources */,
+				EAE8FDBF1F475D1500F830D0 /* PlayerCellsTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EAE8FDB81F47583F00F830D0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA2292181F436D1E00EE1E79 /* Hus */;
+			targetProxy = EAE8FDB71F47583F00F830D0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		EA2292201F436D1E00EE1E79 /* Main.storyboard */ = {
@@ -335,6 +422,32 @@
 			};
 			name = Release;
 		};
+		EAE8FDB91F47583F00F830D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = HusTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.winterapps.HusTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hus.app/Hus";
+			};
+			name = Debug;
+		};
+		EAE8FDBA1F47583F00F830D0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = HusTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.winterapps.HusTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hus.app/Hus";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -355,6 +468,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		EAE8FDBB1F47583F00F830D0 /* Build configuration list for PBXNativeTarget "HusTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EAE8FDB91F47583F00F830D0 /* Debug */,
+				EAE8FDBA1F47583F00F830D0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -14,6 +14,7 @@ class CellView: UIView, CellUpdateDelegate {
     
     static var highlightColor: UIColor = UIColor(colorLiteralRed: 126 / 255, green: 189 / 255, blue: 194 / 255, alpha: 1)
     static var originalColor: UIColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.33)
+    static var tippColor: UIColor = UIColor(colorLiteralRed: 187 / 255, green: 68 / 255, blue: 48 / 255, alpha: 1)
     
     static let highlightDelay: TimeInterval = 0.8
     
@@ -91,7 +92,6 @@ class CellView: UIView, CellUpdateDelegate {
         guard let previous = Int(text) else {
             return
         }
-        print("updating for player \(self.player == .one ? "1" : "2") row: \(tag)")
         let difference = newAmount - previous
         if difference > 0 {
             self.updateLabel.text = "+\(difference)"
@@ -124,6 +124,28 @@ class CellView: UIView, CellUpdateDelegate {
         UIView.animate(withDuration: CellView.highlightDelay, animations: {_ in
             self.roundedView.backgroundColor = CellView.originalColor
         })
+    }
+    
+    func performTippLogic() {
+        
+        UIView.animate(withDuration: CellView.highlightDelay, animations: {_ in
+            self.roundedView.backgroundColor = CellView.tippColor
+        }, completion: {_ in
+            UIView.animate(withDuration: CellView.highlightDelay, animations: {_ in
+                self.roundedView.backgroundColor = CellView.originalColor
+            }, completion: {_ in
+                UIView.animate(withDuration: CellView.highlightDelay, animations: {_ in
+                    self.roundedView.backgroundColor = CellView.tippColor
+                }, completion: {_ in
+                    UIView.animate(withDuration: CellView.highlightDelay, animations: {_ in
+                        self.roundedView.backgroundColor = CellView.originalColor
+                    })
+                })
+                
+            })
+        })
+        
+        
     }
 
     func didTap() {

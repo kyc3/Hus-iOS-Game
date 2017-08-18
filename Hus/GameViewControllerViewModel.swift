@@ -93,6 +93,22 @@ class GameViewControllerViewModel {
         
     }
     
+    func getTipp(selectedPositionCallback: @escaping (CellPosition) -> Void) {
+        if wouldBeFirstSelectionForPlayer {
+            self.set(directionForNextPlayer: Bot.chooseDirection())
+        }
+        
+        DispatchQueue.global().async {
+            Bot.nextPositionToSelect(forGame: self.game, andPlayer: self.nextPlayer(), difficulty: .hard, closure: { position in
+                DispatchQueue.main.async(execute: {
+                    selectedPositionCallback(position)
+                })
+                
+            })
+            
+        }
+    }
+    
     private func indexPathToPositionAndPlayer(indexPath: IndexPath) -> (position: CellPosition, player: Player) {
         let player = indexPath.section > 1 ? Player.two : Player.one
         let position = CellPosition(row: (indexPath.section == 1 || indexPath.section == 2) ? .Front : .Back, number: indexPath.row)

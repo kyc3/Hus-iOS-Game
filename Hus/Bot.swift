@@ -22,6 +22,29 @@ class Bot {
     }
     
     func nextPositionToSelect(closure: @escaping (CellPosition) -> Void) {
+        Bot.nextPositionToSelect(forGame: self.game, andPlayer: player, difficulty: difficulty, closure: closure)
+    }
+    
+    private static func choosePosition(evaluated: [(position: CellPosition, value: Double)], difficulty: Difficulty = .hard) -> CellPosition {
+        if difficulty == .hard {
+            return evaluated.first!.position
+        }
+        else if difficulty == .medium {
+            return evaluated[Int(evaluated.count / 2)].position
+        }
+        else {
+            return evaluated.last!.position
+        }
+    }
+    
+    static func chooseDirection() -> PlayerCells.Direction {
+        if arc4random_uniform(1) == 0 {
+            return .up
+        }
+        return .down
+    }
+    
+    static func nextPositionToSelect(forGame game: Game, andPlayer player: Player, difficulty: Difficulty, closure: @escaping (CellPosition) -> Void) {
         let group = DispatchGroup()
         
         var directionEvaluation: [(position: CellPosition, value: Double)] = []
@@ -50,28 +73,8 @@ class Bot {
                 }
                 return first.value > second.value
             })
-            closure(self.chooseDirection(evaluated: directionEvaluation))
+            closure(choosePosition(evaluated: directionEvaluation, difficulty: difficulty))
         }
-        
-    }
-    
-    private func chooseDirection(evaluated: [(position: CellPosition, value: Double)]) -> CellPosition {
-        if difficulty == .hard {
-            return evaluated.first!.position
-        }
-        else if difficulty == .medium {
-            return evaluated[Int(evaluated.count / 2)].position
-        }
-        else {
-            return evaluated.last!.position
-        }
-    }
-    
-    private static func chooseDirection() -> PlayerCells.Direction {
-        if arc4random_uniform(1) == 0 {
-            return .up
-        }
-        return .down
     }
     
     enum Difficulty {

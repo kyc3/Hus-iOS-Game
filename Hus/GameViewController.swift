@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QuartzCore
 
 class GameViewController: UIViewController, CellViewTapDelegate {
     
@@ -22,8 +23,11 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     @IBOutlet weak var lowerPlayerBack: UIStackView!
     @IBOutlet weak var playerOneOverlay: UIView!
     @IBOutlet weak var playerTwoOverlay: UIView!
+    @IBOutlet weak var botThinkingView: UIView!
+    @IBOutlet weak var winnerView: UIView!
+    @IBOutlet weak var winnerLabel: UILabel!
     
-    let viewModel = GameViewControllerViewModel()
+    var viewModel = GameViewControllerViewModel()
     var gameEnabled: Bool = true
     var botPlayer: Player?
     
@@ -31,6 +35,13 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupWinnerView()
+        self.setupThinkingView()
+        startSteps()
+    }
+    
+    func startSteps() {
+        
         self.configure()
         self.adjustOverlays()
     }
@@ -75,7 +86,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     }
     
     func showWhoShouldStart() {
-        let message: String = gameMode == GameMode.singlePlayer ? "You or the bot?" : "Upper or lower player?"
+        let message: String = gameMode == GameMode.singlePlayer ? "You or the Opponent?" : "Upper or lower player?"
         let alert = UIAlertController(title: "Who should start?", message: message, preferredStyle: .actionSheet)
         let upperTitle: String = gameMode == GameMode.singlePlayer ? "Opponent" : "Upper player"
         let lowerTitle: String = gameMode == GameMode.singlePlayer ? "Me" : "Lower player"
@@ -107,7 +118,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
         case .showGameOverMessage:
             self.removeOverlays()
             self.gameEnabled = false
-            // TODO: message
+            self.showWinnerView()
             print("GameOver")
         default:
             self.adjustOverlays()
@@ -116,16 +127,68 @@ class GameViewController: UIViewController, CellViewTapDelegate {
         
     }
     
+    func setupWinnerView() {
+        self.winnerView.layer.cornerRadius = 10
+        self.winnerView.layer.masksToBounds = true
+        self.winnerView.alpha = 0
+    }
+    
+    func showWinnerView() {
+        if self.viewModel.game.winner == .one && self.gameMode == GameMode.singlePlayer {
+            self.winnerLabel.text = "Bot has won"
+        }
+        else if self.viewModel.game.winner == .one {
+            self.winnerLabel.text = "Upper player has won"
+        }
+        else if self.viewModel.game.winner == .two && self.gameMode == GameMode.singlePlayer {
+            self.winnerLabel.text = "You have won"
+        }
+        else {
+            self.winnerLabel.text = "Lower player has one"
+        }
+        
+        UIView.animate(withDuration: 0.8, animations: {_ in
+            self.winnerView.alpha = 1
+        })
+    }
+    
+    func hideWinnerView() {
+        UIView.animate(withDuration: 0.8, animations: {_ in
+            self.winnerView.alpha = 0
+        })
+    }
+    
     func nextStep() {
         guard botPlayer != nil else {
             return
         }
+        
         if self.viewModel.nextPlayer() == botPlayer {
             self.gameEnabled = false
+            self.showThinkingView()
             self.viewModel.performBotStep(selectedPositionCallback: {position in
+                self.hideThinkingView()
                 self.highlightCell(withTag: position.hashValue, forPlayer: self.botPlayer!)
             },closure: gameClosure)
         }
+    }
+    
+    func setupThinkingView() {
+        self.botThinkingView.layer.cornerRadius = 10
+        self.botThinkingView.layer.masksToBounds = true
+        self.botThinkingView.alpha = 0
+    }
+    
+    func showThinkingView() {
+        UIView.animate(withDuration: 0.8, animations: {_ in
+            self.botThinkingView.alpha = 1
+        })
+    }
+    
+    func hideThinkingView() {
+        UIView.animate(withDuration: 0.8, animations: {_ in
+            self.botThinkingView.alpha = 0
+        })
     }
     
     func removeOverlays() {
@@ -215,6 +278,26 @@ class GameViewController: UIViewController, CellViewTapDelegate {
             }
         }
     }
+    
+    @IBAction func cancelGame(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func restartGame(_ sender: Any) {
+        self.viewModel = GameViewControllerViewModel()
+        self.hideThinkingView()
+        self.hideWinnerView()
+        self.gameEnabled = true
+        self.startSteps()
+    }
+    
+    @IBAction func showTipps(_ sender: Any) {
+        if gameEnabled {
+            // TODO
+        }
+    }
+    
+    
     
     enum GameMode {
         case singlePlayer

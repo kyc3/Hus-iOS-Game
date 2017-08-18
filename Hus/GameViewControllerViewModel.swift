@@ -10,14 +10,19 @@ import Foundation
 
 class GameViewControllerViewModel {
     
-    var game = Game()
+    var game: Game = Game()
+    
+    private var bot: Bot?
     
     private var directionForPlayerOneSet = false
     private var directionForPlayerTwoSet = false
     
-    init() {
-        game.setDirection(forFirstPlayer: .up)
-        game.setDirection(forSecondPlayer: .down)
+    func startingPlayerSelected(player: Player) {
+        self.game.setFirstPlayer(player: player)
+    }
+    
+    func set(botDifficulty: Bot.Difficulty) {
+        self.bot = Bot(game: self.game, player: .one, difficulty: botDifficulty)
     }
     
     func cell(forPlayer player: Player, andTag tag: Int) -> Cell {
@@ -43,17 +48,26 @@ class GameViewControllerViewModel {
         
     }
     
-    func performBotStep(closure: @escaping (GameViewController.ResponseReaction) -> Void) {
+    func performBotStep(selectedPositionCallback: @escaping (CellPosition) -> Void, closure: @escaping (GameViewController.ResponseReaction) -> Void) {
+        if bot == nil {
+            self.set(botDifficulty: .hard)
+        }
         if self.wouldBeFirstSelectionForPlayer {
-            self.set(directionForNextPlayer: Bot.chooseDirection())
+            self.set(directionForNextPlayer: self.bot!.direction)
         }
         DispatchQueue.global().async {
-            Bot.nextPositionToSelect(forGame: self.game, closure: { (position) in
+            self.bot!.nextPositionToSelect(closure: { (position) in
                 DispatchQueue.main.async(execute: {
+                    selectedPositionCallback(position)
                     self.performProcess(fromPlayer: self.nextPlayer(), andPosition: position, closure: closure)
                 })
             })
         }
+    }
+    
+    func canSelectItem(fromPlayer player: Player, andTag tag: Int) -> Bool {
+        let position = self.position(forTag: tag)
+        return self.game.getCell(atPosition: position, forPlayer: player).hasStones
     }
 
     func didSelectItem(fromPlayer player: Player, andTag tag: Int, closure: @escaping (GameViewController.ResponseReaction) -> Void) {

@@ -13,6 +13,10 @@ class Game {
     private var gameField: GameField = GameField()
     private var nextPlayer: Player = .one
     
+    func setFirstPlayer(player: Player) {
+        self.nextPlayer = player
+    }
+    
     func performProcess(position: CellPosition, withDelay delays: Bool = true) {
         gameField.shouldSleep = delays
         if gameField.getCell(atPosition: position, forPlayer: nextPlayer).hasStones {

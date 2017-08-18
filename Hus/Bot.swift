@@ -10,16 +10,23 @@ import Foundation
 
 class Bot {
     
+    private let game: Game
+    private let player: Player
+    private let difficulty: Difficulty
+    let direction: PlayerCells.Direction = Bot.chooseDirection()
     
-    static func nextPositionToSelect(forGame game: Game, closure: @escaping (CellPosition) -> Void) {
-        let player = game.next
-        
+    init(game: Game, player: Player, difficulty: Difficulty) {
+        self.game = game
+        self.player = player
+        self.difficulty = difficulty
+    }
+    
+    func nextPositionToSelect(closure: @escaping (CellPosition) -> Void) {
         let group = DispatchGroup()
         
-        var directionEvaluation: [CellPosition: Double] = [:]
+        var directionEvaluation: [(position: CellPosition, value: Double)] = []
         var winnerDirection: [CellPosition: Bool] = [:]
         
-        // do something, including background threads
         for position in CellPosition.possibleCellPositions {
             guard game.getCell(atPosition: position, forPlayer: player).hasStones else {
                 continue
@@ -27,33 +34,50 @@ class Bot {
             group.enter()
             let gameCopy = game.copy()
             gameCopy.performProcess(position: position, withDelay: false)
-            directionEvaluation[position] = gameCopy.evaluateGame(forPlayer: player)
+            directionEvaluation.append((position: position, value: gameCopy.evaluateGame(forPlayer: player)))
             winnerDirection[position] = game.winner != nil
             group.leave()
         }
         
         
         group.notify(queue: DispatchQueue.main) {
-            var bestPosition: CellPosition = directionEvaluation.keys.first!
-            for position in directionEvaluation.keys {
-                if winnerDirection[position]! {
-                    closure(bestPosition)
-                    return
+            directionEvaluation.sort(by: {first, second in
+                if winnerDirection[second.position]! {
+                    return false
                 }
-                if directionEvaluation[position]! > directionEvaluation[bestPosition]! {
-                    bestPosition = position
+                else if winnerDirection[first.position]! {
+                    return true
                 }
-            }
-            closure(bestPosition)
+                return first.value > second.value
+            })
+            closure(self.chooseDirection(evaluated: directionEvaluation))
         }
         
     }
     
-    static func chooseDirection() -> PlayerCells.Direction {
+    private func chooseDirection(evaluated: [(position: CellPosition, value: Double)]) -> CellPosition {
+        if difficulty == .hard {
+            return evaluated.first!.position
+        }
+        else if difficulty == .medium {
+            return evaluated[Int(evaluated.count / 2)].position
+        }
+        else {
+            return evaluated.last!.position
+        }
+    }
+    
+    private static func chooseDirection() -> PlayerCells.Direction {
         if arc4random_uniform(1) == 0 {
             return .up
         }
         return .down
+    }
+    
+    enum Difficulty {
+        case hard
+        case medium
+        case easy
     }
     
 }

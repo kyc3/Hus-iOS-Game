@@ -14,6 +14,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     static let spaceBetweenPlayers: CGFloat = 10
     
     var gameMode: GameMode!
+    var botDifficulty: Bot.Difficulty?
     
     @IBOutlet weak var upperPlayerBack: UIStackView!
     @IBOutlet weak var upperPlayerFront: UIStackView!
@@ -26,6 +27,8 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     var gameEnabled: Bool = true
     var botPlayer: Player?
     
+    private var highlightedView: CellView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configure()
@@ -33,9 +36,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     }
     
     func configure() {
-        if gameMode == GameMode.singlePlayer {
-            botPlayer = .one
-        }
+        
         for view in upperPlayerBack.arrangedSubviews {
             guard let cellView = view as? CellView else {
                 continue
@@ -60,7 +61,39 @@ class GameViewController: UIViewController, CellViewTapDelegate {
             }
             cellView.configure(withUIParams: (cell: self.viewModel.cell(forPlayer: .two, andTag: cellView.tag), shouldRotateLabel: false, player: .two, delegate: self))
         }
-        nextStep()
+        
+        if gameMode == GameMode.singlePlayer {
+            if self.botDifficulty != nil {
+                self.viewModel.set(botDifficulty: self.botDifficulty!)
+            }
+            else {
+                self.viewModel.set(botDifficulty: .hard)
+            }
+            botPlayer = .one
+        }
+        showWhoShouldStart()
+    }
+    
+    func showWhoShouldStart() {
+        let message: String = gameMode == GameMode.singlePlayer ? "You or the bot?" : "Upper or lower player?"
+        let alert = UIAlertController(title: "Who should start?", message: message, preferredStyle: .actionSheet)
+        let upperTitle: String = gameMode == GameMode.singlePlayer ? "Opponent" : "Upper player"
+        let lowerTitle: String = gameMode == GameMode.singlePlayer ? "Me" : "Lower player"
+        
+        let upperAction = UIAlertAction(title: upperTitle, style: .default, handler: {_ in
+            self.viewModel.startingPlayerSelected(player: .one)
+            self.adjustOverlays()
+            self.nextStep()
+        })
+        let lowAction = UIAlertAction(title: lowerTitle, style: .default, handler: {_ in
+            self.viewModel.startingPlayerSelected(player: .two)
+            self.adjustOverlays()
+            self.nextStep()
+        })
+        alert.addAction(upperAction)
+        alert.addAction(lowAction)
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
     var upperSideRotated: Bool {
@@ -68,7 +101,8 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     }
     
     func gameClosure(reaction: ResponseReaction) -> Void {
-        
+        self.gameEnabled = true
+        self.highlightedView?.unHighlight()
         switch reaction {
         case .showGameOverMessage:
             self.removeOverlays()
@@ -83,8 +117,14 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     }
     
     func nextStep() {
+        guard botPlayer != nil else {
+            return
+        }
         if self.viewModel.nextPlayer() == botPlayer {
-            self.viewModel.performBotStep(closure: gameClosure)
+            self.gameEnabled = false
+            self.viewModel.performBotStep(selectedPositionCallback: {position in
+                self.highlightCell(withTag: position.hashValue, forPlayer: self.botPlayer!)
+            },closure: gameClosure)
         }
     }
     
@@ -123,6 +163,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
                     direction = .down
                 }
                 self.viewModel.set(directionForNextPlayer: direction)
+                self.highlightCell(withTag: tag, forPlayer: player)
                 self.viewModel.didSelectItem(fromPlayer: player, andTag: tag, closure: self.gameClosure)
             })
             let rightAction = UIAlertAction(title: "Right", style: .default, handler: {_ in
@@ -134,6 +175,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
                     direction = .down
                 }
                 self.viewModel.set(directionForNextPlayer: direction)
+                self.highlightCell(withTag: tag, forPlayer: player)
                 self.viewModel.didSelectItem(fromPlayer: player, andTag: tag, closure: self.gameClosure)
             })
             alert.addAction(leftAction)
@@ -145,7 +187,33 @@ class GameViewController: UIViewController, CellViewTapDelegate {
             })
             return
         }
-        self.viewModel.didSelectItem(fromPlayer: player, andTag: tag, closure: self.gameClosure)
+        if self.viewModel.canSelectItem(fromPlayer: player, andTag: tag) {
+            self.highlightCell(withTag: tag, forPlayer: player)
+            self.viewModel.didSelectItem(fromPlayer: player, andTag: tag, closure: self.gameClosure)
+        }
+        
+    }
+    
+    func highlightCell(withTag tag: Int, forPlayer player: Player) {
+        let stack: UIStackView
+        if player == .one && tag < 8 {
+            stack = self.upperPlayerFront
+        }
+        else if player == .one && tag > 7 {
+            stack = self.upperPlayerBack
+        }
+        else if player == .two && tag < 8 {
+            stack = self.lowerPlayerFront
+        }
+        else {
+            stack = self.lowerPlayerBack
+        }
+        for view in stack.arrangedSubviews {
+            if view.tag == tag {
+                self.highlightedView = view as? CellView
+                self.highlightedView?.highlight()
+            }
+        }
     }
     
     enum GameMode {

@@ -12,6 +12,10 @@ import QuartzCore
 class CellView: UIView, CellUpdateDelegate {
     typealias UIParameters = (cell: Cell, shouldRotateLabel: Bool, player: Player, delegate: CellViewTapDelegate)
     
+    static var highlightColor: UIColor = UIColor(colorLiteralRed: 126 / 255, green: 189 / 255, blue: 194 / 255, alpha: 1)
+    static var originalColor: UIColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.33)
+    
+    static let highlightDelay: TimeInterval = 0.8
     
     @IBOutlet weak var roundedView: UIView!
     @IBOutlet weak var numberOfStonesLabel: UILabel!
@@ -34,6 +38,7 @@ class CellView: UIView, CellUpdateDelegate {
         self.player = uiParams.player
         self.delegate = uiParams.delegate
         applyRotation(toLabel: self.numberOfStonesLabel)
+        roundedView.backgroundColor = CellView.originalColor
         roundedView.layer.cornerRadius = self.frame.size.height / 2
         roundedView.layer.masksToBounds = true
         
@@ -107,7 +112,18 @@ class CellView: UIView, CellUpdateDelegate {
                 self.updateLabel.alpha = 0
             })
         })
-        
+    }
+    
+    func highlight() {
+        UIView.animate(withDuration: CellView.highlightDelay, animations: {_ in
+            self.roundedView.backgroundColor = CellView.highlightColor
+        })
+    }
+    
+    func unHighlight() {
+        UIView.animate(withDuration: CellView.highlightDelay, animations: {_ in
+            self.roundedView.backgroundColor = CellView.originalColor
+        })
     }
 
     func didTap() {

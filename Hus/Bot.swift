@@ -78,6 +78,17 @@ class Bot {
         case hard
         case medium
         case easy
+        
+        var title: String {
+            switch self {
+            case .easy:
+                return "Easy"
+            case .medium:
+                return "Medium"
+            case .hard:
+                return "hard"
+            }
+        }
     }
     
 }

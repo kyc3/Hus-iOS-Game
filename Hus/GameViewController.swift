@@ -37,7 +37,19 @@ class GameViewController: UIViewController, CellViewTapDelegate {
         super.viewDidLoad()
         self.setupWinnerView()
         self.setupThinkingView()
+        self.setupTitle()
         startSteps()
+    }
+    
+    func setupTitle() {
+        let title: String
+        if gameMode == GameMode.singlePlayer {
+            title = "Single Player - \(botDifficulty!.title)"
+        }
+        else {
+            title = "Multiplayer"
+        }
+        self.title = title
     }
     
     func startSteps() {
@@ -159,7 +171,7 @@ class GameViewController: UIViewController, CellViewTapDelegate {
     }
     
     func nextStep() {
-        guard botPlayer != nil else {
+        guard botPlayer != nil && self.viewModel.game.winner == nil else {
             return
         }
         
